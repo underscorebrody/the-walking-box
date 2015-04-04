@@ -3,7 +3,10 @@ var _ = require('lodash');
 module.exports = function(game) {
 
   var gameState = {},
-      player, cursors, zombie;
+      cars,
+      player,
+      cursors,
+      zombie;
 
   function moveZombie(p, z) {
     var areWeMoving = _.random(0, 1);
@@ -36,16 +39,30 @@ module.exports = function(game) {
     entity.body.velocity.y = 0;
   }
 
-
   gameState.create = function () {
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    cars = game.add.group();
+    cars.enableBody = true;
+    
+    //Create a car
+    var car1 = cars.create(80, 90, 'car');
+    car1.body.immovable = true;
+
+    //Create player in same area
     player = game.add.sprite(0, 0, 'hero');
     zombie = game.add.sprite(100, 0, 'zombie');
     game.physics.arcade.enable(player);
     game.physics.arcade.enable(zombie);
+    player.body.collideWorldBounds = true;
+    zombie.body.collideWorldBounds = true;
   };
 
   gameState.update = function() {
     cursors = game.input.keyboard.createCursorKeys();
+
+    game.physics.arcade.collide(player, cars);
+    game.physics.arcade.collide(zombie, cars);
 
     //  Reset the players velocity (movement)
     resetEntity(player);
