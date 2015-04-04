@@ -10,13 +10,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-stylus');
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-pngmin');
 
-  var productionBuild = !!(grunt.cli.tasks.length && grunt.cli.tasks[0] === 'build');
+  var productionBuild = false;
 
   grunt.initConfig(
     { pkg: grunt.file.readJSON('package.json')
@@ -74,9 +74,9 @@ module.exports = function (grunt) {
         { files: 'src/templates/*.jade'
         , tasks: ['jade']
         }
-      , stylus:
-        { files: 'src/style/*.styl'
-        , tasks: ['stylus']
+      , sass:
+        { files: 'src/style/*.sass'
+        , tasks: ['sass']
         }
       , images:
         { files: 'src/images/**/*'
@@ -139,13 +139,10 @@ module.exports = function (grunt) {
         }
       }
 
-    , stylus:
+    , sass:
       { compile:
         { files:
-          { 'build/style/index.css': ['src/style/index.styl'] }
-        , options:
-          { sourcemaps: !productionBuild
-          }
+          { 'build/style/index.css': ['src/style/index.sass'] }
         }
       }
 
@@ -207,7 +204,7 @@ module.exports = function (grunt) {
     [ 'clean'
     , 'browserify'
     , 'jade'
-    , 'stylus'
+    , 'sass'
     , 'copy'
     , 'connect'
     , 'open'
@@ -216,11 +213,11 @@ module.exports = function (grunt) {
   );
 
   grunt.registerTask('build',
-    [ /*'jshint'
-    , */'clean'
+    [ 'jshint'
+    , 'clean'
     , 'browserify'
     , 'jade'
-    , 'stylus'
+    , 'sass'
     , 'uglify'
     , 'copy'
     , 'cacheBust'
