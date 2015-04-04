@@ -26,10 +26,15 @@ module.exports = function(game) {
       var zombie = zombieGroup.create(xPosition, yPosition, 'zombie');
       game.physics.arcade.enable(zombie);
       zombie.body.collideWorldBounds = true;
-      _.extend(zombie.body, {intrinsicSpeed: _.random(0, 100)});
+      _.extend(zombie.body, {intrinsicWalkSpeed: _.random(0, 30)});
+      _.extend(zombie.body, {intrinsicRunSpeed: _.random(50, 100)});
     }
   }
 
+  function killZombie(bullet, zombie) {
+    bullet.kill();
+    zombie.kill();
+  }
 
   gameState.create = function () {
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -48,7 +53,6 @@ module.exports = function(game) {
     player = game.add.sprite(0, 0, 'hero');
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-
     populateZombies(zombies);
 
     //Create bullets
@@ -59,13 +63,13 @@ module.exports = function(game) {
   gameState.update = function() {
     //  Reset the players velocity (movement)
     resetEntity(player);
-    _.each(zombies.children, function(zombie){
-      resetEntity(zombie);
-    });
 
     game.physics.arcade.collide(player, cars);
+    game.physics.arcade.collide(player, zombies);
     game.physics.arcade.collide(zombies, cars);
+    game.physics.arcade.collide(zombies, zombies);
 
+    game.physics.arcade.overlap(bullets, zombies, killZombie, null, this);
 
     playerLogic.movePlayer(game, player);
 
