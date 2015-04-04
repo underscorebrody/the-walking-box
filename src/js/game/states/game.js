@@ -1,18 +1,22 @@
 var _ = require('lodash'),
-    zombieLogic = require('./zombie')();
-    playerLogic = require('./player')();
+    zombieLogic = require('./zombie')(),
+    playerLogic = require('./player')(),
+    weapon = require('./weapon')();
 
 module.exports = function(game) {
 
   var gameState = {},
       cars,
       player,
-      zombies;
+      zombies,
+      cursors,
+      bullets;
+
 
   function resetEntity(entity) {
     entity.body.velocity.x = 0;
     entity.body.velocity.y = 0;
-  }
+  };
 
   function populateZombies(zombieGroup) {
     for(var i = 0; i < 8; i++) {
@@ -46,6 +50,10 @@ module.exports = function(game) {
     player.body.collideWorldBounds = true;
 
     populateZombies(zombies);
+
+    //Create bullets
+    bullets = game.add.group();
+    game.physics.enable(bullets, Phaser.Physics.ARCADE);
   };
 
   gameState.update = function() {
@@ -60,6 +68,10 @@ module.exports = function(game) {
 
 
     playerLogic.movePlayer(game, player);
+
+    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        weapon.shoot(game, bullets);
+    }
 
     _.each(zombies.children, function(zombie){
       zombieLogic.moveZombie(player, zombie);
