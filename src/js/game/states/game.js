@@ -51,6 +51,8 @@ module.exports = function(game) {
 
     //Create player in same area
     player = game.add.sprite(0, 0, 'hero');
+    player.pivot.setTo(25, 25);
+
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
     populateZombies(zombies);
@@ -74,6 +76,7 @@ module.exports = function(game) {
     game.physics.arcade.overlap(bullets, zombies, killZombie, null, this);
 
     playerLogic.movePlayer(game, player);
+    playerLogic.rotatePlayer(game, player);
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         weapon.shoot(game, player, bullets);

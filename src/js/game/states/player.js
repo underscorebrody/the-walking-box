@@ -7,40 +7,47 @@ module.exports = function() {
 
   logic.movePlayer = function(game, player) {
     var cursors = game.input.keyboard.createCursorKeys(),
-        baseSpeed = 650;        ;
+        IS_W_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.W),
+        IS_A_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.A),
+        IS_S_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.S),
+        IS_D_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.D),
+        baseSpeed = 150,
+        direction;
 
-    if (cursors.left.isDown && !cursors.up.isDown && !cursors.down.isDown) {
-      player.facing = 'w';
-      Utilities.setSpeed(player, player.facing, baseSpeed);
+    if (IS_W_DOWN && !IS_A_DOWN && !IS_D_DOWN) {
+      direction = 'n';
     }
-    else if (cursors.left.isDown && cursors.up.isDown && !cursors.down.isDown) {
-      player.facing = 'nw';
-      Utilities.setSpeed(player, player.facing, baseSpeed);
+    else if (IS_D_DOWN && IS_W_DOWN && !IS_S_DOWN) {
+      direction = 'ne';
     }
-    else if (cursors.left.isDown && !cursors.up.isDown && cursors.down.isDown) {
-      player.facing = 'sw';
-      Utilities.setSpeed(player, player.facing, baseSpeed);
+    else if (IS_D_DOWN && !IS_W_DOWN && !IS_S_DOWN) {
+      direction = 'e';
     }
-    else if (cursors.right.isDown && !cursors.up.isDown && !cursors.down.isDown) {
-      player.facing = 'e';
-      Utilities.setSpeed(player, player.facing, baseSpeed);
+    else if (IS_D_DOWN && !IS_W_DOWN && IS_S_DOWN) {
+      direction = 'se';
     }
-    else if (cursors.right.isDown && cursors.up.isDown && !cursors.down.isDown) {
-      player.facing = 'ne';
-      Utilities.setSpeed(player, player.facing, baseSpeed);
+    else if (IS_S_DOWN && !IS_A_DOWN && !IS_D_DOWN) {
+      direction = 's';
     }
-    else if (cursors.right.isDown && !cursors.up.isDown && cursors.down.isDown) {
-      player.facing = 'se';
-      Utilities.setSpeed(player, player.facing, baseSpeed);
+    else if (IS_A_DOWN && !IS_W_DOWN && IS_S_DOWN) {
+      direction = 'sw';
     }
-    else if (cursors.up.isDown && !cursors.left.isDown && !cursors.right.isDown) {
-      player.facing = 'n';
-      Utilities.setSpeed(player, player.facing, baseSpeed);
+    else if (IS_A_DOWN && !IS_W_DOWN && !IS_S_DOWN) {
+      direction = 'w';
     }
-    else if (cursors.down.isDown && !cursors.left.isDown && !cursors.right.isDown) {
-      player.facing = 's';
-      Utilities.setSpeed(player, player.facing, baseSpeed);
+    else if (IS_A_DOWN && IS_W_DOWN && !IS_S_DOWN) {
+      direction = 'nw';
     }
+
+    if(!!direction) {
+      Utilities.setSpeed(player, direction, baseSpeed);
+    }
+  }
+
+  logic.rotatePlayer = function(game, player) {
+    var angleInRadians = Utilities.calculateRotation(game, player);
+
+    player.rotation = angleInRadians;
   }
 
   return logic;

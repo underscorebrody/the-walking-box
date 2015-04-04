@@ -3,7 +3,7 @@ var Utilities = require('./utilities')();
 module.exports = function() {
 
   var Weapon = {
-    
+
     shotTimer: 0,
 
     shoot: function (game, player, bullets) {
@@ -11,15 +11,21 @@ module.exports = function() {
 
       if (Weapon.shotTimer < game.time.now) {
         Weapon.shotTimer = game.time.now + 275;
-        var bullet;
+        var bullet,
+            rotation = Utilities.calculateRotation(game, player),
+            yModifier = Math.sin(rotation),
+            xModifier = Math.cos(rotation);
+
         bullet = bullets.create(
-                  player.body.x+25,
-                  player.body.y+25,
-                  'bullet1');
+                  player.body.x+(xModifier*50),
+                  player.body.y+(yModifier*50),
+                  'bullet');
+
         game.physics.enable(bullet, Phaser.Physics.ARCADE);
         bullet.outOfBoundsKill = true;
         bullet.anchor.setTo(0.5, 0.5);
-        Utilities.setSpeed(bullet, player.facing, baseSpeed);
+
+        Utilities.setBulletSpeed(bullet, rotation, baseSpeed);
       }
     }
   }
