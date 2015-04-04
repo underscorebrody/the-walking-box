@@ -63,6 +63,8 @@ module.exports = function(game) {
   gameState.update = function() {
     //  Reset the players velocity (movement)
     resetEntity(player);
+    
+    game.camera.follow(player);
 
     game.physics.arcade.collide(player, cars);
     game.physics.arcade.collide(player, zombies);

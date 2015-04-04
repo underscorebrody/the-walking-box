@@ -11,10 +11,16 @@ module.exports = function(game) {
       addStats();
     }
 
+    //Set world size to populate initially
+    game.world.width = 3000;
+    game.world.height = 3000;
+    game.world.setBounds(0, 0, 3000, 3000); //Don't forget to setBounds so the camera follows
+
     game.sound.mute = properties.mute;
 
     game.state.start('preloader');
   };
+
 
   function addStats() {
     var stats = new Stats();

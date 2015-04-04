@@ -7,7 +7,7 @@ module.exports = function() {
 
   logic.movePlayer = function(game, player) {
     var cursors = game.input.keyboard.createCursorKeys(),
-        baseSpeed = 150;        ;
+        baseSpeed = 650;        ;
 
     if (cursors.left.isDown && !cursors.up.isDown && !cursors.down.isDown) {
       player.facing = 'w';
