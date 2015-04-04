@@ -1,55 +1,45 @@
 var _ = require('lodash');
+var Utilities = require('./utilities')();
 
 module.exports = function() {
 
   var logic = {};
 
   logic.movePlayer = function(game, player) {
-    var cursors = game.input.keyboard.createCursorKeys();
+    var cursors = game.input.keyboard.createCursorKeys(),
+        baseSpeed = 150;        ;
 
     if (cursors.left.isDown && !cursors.up.isDown && !cursors.down.isDown) {
-      // move west
-      player.body.velocity.x = -150;
       player.facing = 'w';
+      Utilities.setSpeed(player, player.facing, baseSpeed);
     }
     else if (cursors.left.isDown && cursors.up.isDown && !cursors.down.isDown) {
-      // move northwest
-      player.body.velocity.x = -150;
-      player.body.velocity.y = -150;
       player.facing = 'nw';
+      Utilities.setSpeed(player, player.facing, baseSpeed);
     }
     else if (cursors.left.isDown && !cursors.up.isDown && cursors.down.isDown) {
-      // move southwest
-      player.body.velocity.x = -150;
-      player.body.velocity.y = 150;
       player.facing = 'sw';
+      Utilities.setSpeed(player, player.facing, baseSpeed);
     }
     else if (cursors.right.isDown && !cursors.up.isDown && !cursors.down.isDown) {
-      // move east
-      player.body.velocity.x = 150;
       player.facing = 'e';
+      Utilities.setSpeed(player, player.facing, baseSpeed);
     }
     else if (cursors.right.isDown && cursors.up.isDown && !cursors.down.isDown) {
-      // move northeast
-      player.body.velocity.x = 150;
-      player.body.velocity.y = -150;
       player.facing = 'ne';
+      Utilities.setSpeed(player, player.facing, baseSpeed);
     }
     else if (cursors.right.isDown && !cursors.up.isDown && cursors.down.isDown) {
-      // move southeast
-      player.body.velocity.x = 150;
-      player.body.velocity.y = 150;
       player.facing = 'se';
+      Utilities.setSpeed(player, player.facing, baseSpeed);
     }
     else if (cursors.up.isDown && !cursors.left.isDown && !cursors.right.isDown) {
-      // move north
-      player.body.velocity.y = -150;
       player.facing = 'n';
+      Utilities.setSpeed(player, player.facing, baseSpeed);
     }
     else if (cursors.down.isDown && !cursors.left.isDown && !cursors.right.isDown) {
-      // move south
-      player.body.velocity.y = 150;
       player.facing = 's';
+      Utilities.setSpeed(player, player.facing, baseSpeed);
     }
   }
 

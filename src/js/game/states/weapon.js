@@ -1,4 +1,4 @@
-var _ = require('lodash');
+var Utilities = require('./utilities')();
 
 module.exports = function() {
 
@@ -7,17 +7,8 @@ module.exports = function() {
     shotTimer: 0,
 
     shoot: function (game, player, bullets) {
-      var baseSpeed = 1000,
-          trajectory = {
-            'n' : [0,-1],
-            'ne': [1,-1],
-            'e' : [1,0],
-            'se': [1,1],
-            's' : [0,1],
-            'sw': [-1,1],
-            'w' : [-1,0],
-            'nw': [-1,-1]
-          };
+      var baseSpeed = 1000;
+
       if (Weapon.shotTimer < game.time.now) {
         Weapon.shotTimer = game.time.now + 275;
         var bullet;
@@ -28,8 +19,7 @@ module.exports = function() {
         game.physics.enable(bullet, Phaser.Physics.ARCADE);
         bullet.outOfBoundsKill = true;
         bullet.anchor.setTo(0.5, 0.5);
-        bullet.body.velocity.x = trajectory[player.facing][0]*baseSpeed;
-        bullet.body.velocity.y = trajectory[player.facing][1]*baseSpeed;
+        Utilities.setSpeed(bullet, player.facing, baseSpeed);
       }
     }
   }
