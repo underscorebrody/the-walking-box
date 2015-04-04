@@ -70,7 +70,7 @@ module.exports = function(game) {
     playerLogic.movePlayer(game, player);
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-        weapon.shoot(game, bullets);
+        weapon.shoot(game, player, bullets);
     }
 
     _.each(zombies.children, function(zombie){
