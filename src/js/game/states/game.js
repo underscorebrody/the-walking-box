@@ -26,7 +26,7 @@ module.exports = function(game) {
   }
 
   gameState.create = function () {
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.startSystem(Phaser.Physics.P2JS);
 
     staticObjects = game.add.group();
     staticObjects.enableBody = true;
@@ -68,9 +68,9 @@ module.exports = function(game) {
 
     //Create player in center area
     player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
-    player.pivot.setTo(25, 25);
+    player.pivot.setTo(0,0);
 
-    game.physics.arcade.enable(player);
+    game.physics.p2.enable(player);
     player.body.collideWorldBounds = true;
 
     //Create bullets

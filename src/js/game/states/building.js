@@ -8,10 +8,10 @@ module.exports = function() {
       BUILDING_SIZE = 500;
 
   function checkSpawn(player, building) {
-    var playerX = player.body.position.x,
-        playerY = player.body.position.y,
-        buildingX = building.body.position.x+BUILDING_SIZE/2,
-        buildingY = building.body.position.y+BUILDING_SIZE/2,
+    var playerX = player.position.x,
+        playerY = player.position.y,
+        buildingX = building.position.x+BUILDING_SIZE/2,
+        buildingY = building.position.y+BUILDING_SIZE/2,
         diffX = Math.abs(playerX - buildingX),
         diffY = Math.abs(playerY - buildingY),
         distance = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
@@ -21,10 +21,10 @@ module.exports = function() {
 
   logic.spawnZombiesFromBuilding = function (game, zombies, player, building) {
     if ( !building.hasSpawned && checkSpawn(player, building) ) {
-      var playerX = player.body.position.x,
-          playerY = player.body.position.y,
-          buildingX = building.body.position.x+BUILDING_SIZE/2,
-          buildingY = building.body.position.y+BUILDING_SIZE/2,
+      var playerX = player.position.x,
+          playerY = player.position.y,
+          buildingX = building.position.x+BUILDING_SIZE/2,
+          buildingY = building.position.y+BUILDING_SIZE/2,
           x = playerX - buildingX,
           y = playerY - buildingY,
           AdjustX = 0,

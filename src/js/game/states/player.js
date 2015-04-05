@@ -47,7 +47,7 @@ module.exports = function() {
   logic.rotatePlayer = function(game, player) {
     var angleInRadians = Utilities.calculateRotation(game, player);
 
-    player.rotation = angleInRadians;
+    player.body.rotation = angleInRadians;
   }
 
   return logic;

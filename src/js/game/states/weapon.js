@@ -17,8 +17,8 @@ module.exports = function() {
             xModifier = Math.cos(rotation);
 
         bullet = bullets.create(
-                  player.body.x+(xModifier*50),
-                  player.body.y+(yModifier*50),
+                  player.position.x+(xModifier*50),
+                  player.position.y+(yModifier*50),
                   'bullet');
 
         game.physics.enable(bullet, Phaser.Physics.ARCADE);
