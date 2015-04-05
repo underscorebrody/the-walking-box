@@ -11,7 +11,7 @@ module.exports = function() {
         IS_A_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.A),
         IS_S_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.S),
         IS_D_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.D),
-        baseSpeed = 150,
+        baseSpeed = 400,
         direction;
 
     if (IS_W_DOWN && !IS_A_DOWN && !IS_D_DOWN) {

@@ -12,7 +12,10 @@ module.exports = function(game) {
       zombies,
       cursors,
       bullets,
-      buildings;
+      buildings,
+      playerCollisionGroup,
+      zombiesCollisionGroup,
+      staticObjectsCollisionGroup;
 
 
   function resetEntity(entity) {
@@ -29,13 +32,12 @@ module.exports = function(game) {
     game.physics.startSystem(Phaser.Physics.P2JS);
 
     staticObjects = game.add.group();
-    staticObjects.enableBody = true;
-
     buildings = game.add.group();
-    buildings.enableBody = true;
-
     zombies = game.add.group();
-    zombies.enableBody = true;
+
+    playerCollisionGroup = game.physics.p2.createCollisionGroup();
+    zombiesCollisionGroup = game.physics.p2.createCollisionGroup();
+    staticObjectsCollisionGroup = game.physics.p2.createCollisionGroup();
 
     //Create an array of coordinates that make a 3000px x 3000 grid
     var placementMatrix = [];
@@ -54,17 +56,21 @@ module.exports = function(game) {
       if (rand < 50) {
         if (rand%2 == 0) {
           var car = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'car');
-          car.body.immovable = true;
+          game.physics.p2.enable(car);
+          car.body.setCollisionGroup(staticObjectsCollisionGroup);
         } else {
           var tree = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'tree');
-          tree.body.immovable = true;
+          game.physics.p2.enable(tree);
+          tree.body.setCollisionGroup(staticObjectsCollisionGroup);
         }
       } else if (rand > 90) {
         var building = buildings.create(coordinates[0], coordinates[1], 'building');
         building.hasSpawned = false;
-        building.body.immovable = true;
+        game.physics.p2.enable(building);
+        building.body.setCollisionGroup(staticObjectsCollisionGroup);
       }
     });
+
 
     //Create player in center area
     player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
@@ -72,6 +78,7 @@ module.exports = function(game) {
 
     game.physics.p2.enable(player);
     player.body.collideWorldBounds = true;
+    player.body.setCollisionGroup(playerCollisionGroup);
 
     //Create bullets
     bullets = game.add.group();
@@ -84,10 +91,10 @@ module.exports = function(game) {
 
     game.camera.follow(player);
 
-    game.physics.arcade.collide(player, staticObjects);
-    game.physics.arcade.collide(player, zombies);
-    game.physics.arcade.collide(zombies, staticObjects);
-    game.physics.arcade.collide(zombies, zombies);
+    // game.physics.arcade.collide(player, staticObjects);
+    // game.physics.arcade.collide(player, zombies);
+    // game.physics.arcade.collide(zombies, staticObjects);
+    // game.physics.arcade.collide(zombies, zombies);
 
     game.physics.arcade.overlap(bullets, zombies, killZombie, null, this);
 
@@ -103,7 +110,7 @@ module.exports = function(game) {
     });
 
     _.each(buildings.children, function(building) {
-      buildingLogic.spawnZombiesFromBuilding(game, zombies, player, building);
+      buildingLogic.spawnZombiesFromBuilding(game, zombies, player, building, zombiesCollisionGroup);
     });
   }
 
