@@ -2,7 +2,8 @@ var _ = require('lodash'),
     zombieLogic = require('./zombie')(),
     playerLogic = require('./player')(),
     buildingLogic = require('./building')(),
-    weapon = require('./weapon')();
+    weapon = require('./weapon')(),
+    Boid = require('./boid');
 
 module.exports = function(game) {
 
@@ -31,6 +32,7 @@ module.exports = function(game) {
     staticObjects = game.add.group();
     buildings = game.add.group();
     zombies = game.add.group();
+    boids = game.add.group();
 
     //Create an array of coordinates that make a 3000px x 3000 grid
     var placementMatrix = [];
@@ -74,6 +76,17 @@ module.exports = function(game) {
     //Create bullets
     bullets = game.add.group();
     game.physics.enable(bullets, Phaser.Physics.ARCADE);
+    
+    //Create zombie swarm
+    this.maxZombies = 50;
+    
+    for(var i = 0; i < this.maxZombies; i++) {
+      var boid = boids.add(new Boid(game, game.world.randomX, game.world.randomY, zombies));
+      boid.target = player;
+    }
+
+    // boids.setAll('target', player);
+
   };
 
   gameState.update = function() {
@@ -105,6 +118,9 @@ module.exports = function(game) {
 
     _.each(buildings.children, function(building) {
       buildingLogic.spawnZombiesFromBuilding(game, zombies, player, building);
+    });
+    _.each(boids.children, function(boid) {
+      boid.update();
     });
   }
 

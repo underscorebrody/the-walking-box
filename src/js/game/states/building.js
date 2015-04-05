@@ -33,15 +33,15 @@ module.exports = function() {
       //Zombies should spawn on the correct side of the building to swarm the player
       if (Math.abs(x) > Math.abs(y)) {
         if (x > 0) {
-          AdjustX = 300;
+          AdjustX = 125;
         } else {
-          AdjustX = -300;
+          AdjustX = -125;
         }
       } else {
         if (y > 0) {
-          AdjustY = 300;
+          AdjustY = 125;
         } else {
-          AdjustY = -250;
+          AdjustY = -125;
         }
       }
 
