@@ -66,7 +66,7 @@ module.exports = function(game) {
 
     //Create player in center area
     player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
-    player.pivot.setTo(12,12);
+    player.anchor.setTo(0.5,0.5);
 
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
@@ -85,15 +85,15 @@ module.exports = function(game) {
     game.physics.arcade.collide(player, staticObjects);
     game.physics.arcade.collide(player, zombies);
     game.physics.arcade.collide(player, buildings);
-    
+
     game.physics.arcade.collide(zombies, staticObjects);
     game.physics.arcade.collide(zombies, zombies);
     game.physics.arcade.collide(zombies, buildings);
-    
+
     game.physics.arcade.overlap(bullets, zombies, killZombie, null, this);
 
     playerLogic.movePlayer(game, player);
-    // playerLogic.rotatePlayer(game, player);
+    playerLogic.rotatePlayer(game, player);
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || game.input.mousePointer.justPressed()) {
         weapon.shoot(game, player, bullets);
