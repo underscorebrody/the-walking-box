@@ -1,5 +1,5 @@
 {
-  "name": "phaser-js-boilerplate",
+  "name": "the-walking-box",
   "version": "0.1.0",
   "description": "A Grunty Phaser.js SDK",
   "main": "build/js/app.min.js",
@@ -8,9 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:lukewilde/phaser-js-boilerplate.git"
+    "url": "git@github.com:seanperkins/the-walking-box.git"
   },
-  "author": "Luke Wilde",
+  "author": "Sean Perkins",
   "license": "MIT",
   "browser": {
     "lodash": "./node_modules/lodash/dist/lodash.compat.js",
