@@ -24,7 +24,7 @@ module.exports = function(game) {
           xPosition = _.random(0, 800);
 
       var zombie = zombieGroup.create(xPosition, yPosition, 'zombie');
-      game.physics.arcade.enable(zombie);
+      game.physics.p2.enable(zombie);
       zombie.body.collideWorldBounds = true;
       _.extend(zombie.body, {intrinsicWalkSpeed: _.random(0, 30)});
       _.extend(zombie.body, {intrinsicRunSpeed: _.random(50, 100)});
@@ -37,7 +37,7 @@ module.exports = function(game) {
   }
 
   gameState.create = function () {
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.startSystem(Phaser.Physics.P2JS);
 
     staticObjects = game.add.group();
     staticObjects.enableBody = true;
@@ -74,7 +74,7 @@ module.exports = function(game) {
     player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
     player.pivot.setTo(25, 25);
 
-    game.physics.arcade.enable(player);
+    game.physics.p2.enable(player);
     player.body.collideWorldBounds = true;
     populateZombies(zombies);
 
