@@ -55,7 +55,6 @@ module.exports = function(game) {
           var tree = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'tree');
           game.physics.enable(tree, Phaser.Physics.ARCADE);
           tree.body.immovable = true;
-          tree.pivot.setTo(75, 75);
         }
       } else if (rand > 90) {
         var building = buildings.create(coordinates[0], coordinates[1], 'building');

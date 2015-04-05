@@ -70,7 +70,6 @@ module.exports = function() {
                                       'zombie');
       game.physics.enable(zombie, Phaser.Physics.ARCADE);
       zombie.body.collideWorldBounds = true;
-      zombie.pivot.setTo(12,12)
       _.extend(zombie.body, {intrinsicWalkSpeed: _.random(0, 30)});
       _.extend(zombie.body, {intrinsicRunSpeed: _.random(50, 100)});
     }
