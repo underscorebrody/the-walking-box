@@ -1,6 +1,7 @@
 var _ = require('lodash'),
     zombieLogic = require('./zombie')(),
     playerLogic = require('./player')(),
+    buildingLogic = require('./building')(),
     weapon = require('./weapon')();
 
 module.exports = function(game) {
@@ -10,26 +11,14 @@ module.exports = function(game) {
       player,
       zombies,
       cursors,
-      bullets;
+      bullets,
+      buildings;
 
 
   function resetEntity(entity) {
     entity.body.velocity.x = 0;
     entity.body.velocity.y = 0;
   };
-
-  function populateZombies(zombieGroup) {
-    for(var i = 0; i < 8; i++) {
-      var yPosition = _.random(0, 600);
-          xPosition = _.random(0, 800);
-
-      var zombie = zombieGroup.create(xPosition, yPosition, 'zombie');
-      game.physics.arcade.enable(zombie);
-      zombie.body.collideWorldBounds = true;
-      _.extend(zombie.body, {intrinsicWalkSpeed: _.random(0, 30)});
-      _.extend(zombie.body, {intrinsicRunSpeed: _.random(50, 100)});
-    }
-  }
 
   function killZombie(bullet, zombie) {
     bullet.kill();
@@ -41,6 +30,9 @@ module.exports = function(game) {
 
     staticObjects = game.add.group();
     staticObjects.enableBody = true;
+
+    buildings = game.add.group();
+    buildings.enableBody = true;
 
     zombies = game.add.group();
     zombies.enableBody = true;
@@ -67,6 +59,10 @@ module.exports = function(game) {
           var tree = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'tree');
           tree.body.immovable = true;
         }
+      } else if (rand > 90) {
+        var building = buildings.create(coordinates[0], coordinates[1], 'building');
+        building.hasSpawned = false;
+        building.body.immovable = true;
       }
     });
 
@@ -76,7 +72,6 @@ module.exports = function(game) {
 
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    populateZombies(zombies);
 
     //Create bullets
     bullets = game.add.group();
@@ -105,6 +100,10 @@ module.exports = function(game) {
 
     _.each(zombies.children, function(zombie){
       zombieLogic.moveZombie(player, zombie);
+    });
+
+    _.each(buildings.children, function(building) {
+      buildingLogic.spawnZombiesFromBuilding(game, zombies, player, building);
     });
   }
 

@@ -61,6 +61,16 @@ module.exports = function() {
       }
 
     }
+
+  }
+  logic.spawnZombies = function (game, zombieGroup, xPosition, yPosition) {
+    for(var i = 0; i < 8; i++) {
+      var zombie = zombieGroup.create(xPosition, yPosition, 'zombie');
+      game.physics.arcade.enable(zombie);
+      zombie.body.collideWorldBounds = true;
+      _.extend(zombie.body, {intrinsicWalkSpeed: _.random(0, 30)});
+      _.extend(zombie.body, {intrinsicRunSpeed: _.random(50, 100)});
+    }
   }
 
   return logic;
