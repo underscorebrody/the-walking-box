@@ -5,7 +5,7 @@ module.exports = function() {
 
   var logic = {},
       SPAWNING_DISTANCE = 600,
-      BUILDING_SIZE = 500;
+      BUILDING_SIZE = 300;
 
   function checkSpawn(player, building) {
     var playerX = player.position.x,
@@ -19,7 +19,7 @@ module.exports = function() {
     return distance < SPAWNING_DISTANCE + BUILDING_SIZE/2;
   }
 
-  logic.spawnZombiesFromBuilding = function (game, zombies, player, building, collisionGroup) {
+  logic.spawnZombiesFromBuilding = function (game, zombies, player, building) {
     if ( !building.hasSpawned && checkSpawn(player, building) ) {
       var playerX = player.position.x,
           playerY = player.position.y,
@@ -44,8 +44,9 @@ module.exports = function() {
           AdjustY = -125;
         }
       }
-
-      zombieLogic.spawnZombies(game, zombies, buildingX+AdjustX, buildingY+AdjustY, collisionGroup);
+      for (var i = 0; i <= _.random(1,12); i++) {
+        zombieLogic.spawnZombie(game, player, zombies, buildingX+AdjustX, buildingY+AdjustY);
+      };
       building.hasSpawned = true;
     }
   }

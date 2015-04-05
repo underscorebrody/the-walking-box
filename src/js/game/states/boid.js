@@ -8,7 +8,7 @@ var Boid = function(game, x, y, group, options) {
   this.cannibal = this.options.caniibal;
 
   
-  this.maxVelocity = 50.0;
+  this.maxVelocity = 100.0;
   this.maxForce = 10.0;
   this.seekForce = 0.5;
   
@@ -169,15 +169,15 @@ Boid.prototype.align = function() {
 
 Boid.prototype.checkBorders = function() {
   if(this.body.position.x < -this.radius ){
-    this.body.position.x = this.game.width + this.radius;
+    this.body.position.x = this.world.width + this.radius;
   }
   if(this.body.position.y < -this.radius ){
-    this.body.position.y = this.game.height + this.radius;
+    this.body.position.y = this.world.height + this.radius;
   }
-  if(this.body.position.x > this.game.width + this.radius ){
+  if(this.body.position.x > this.world.width + this.radius ){
     this.body.position.x = -this.radius;
   }
-  if(this.body.position.y > this.game.height + this.radius ){
+  if(this.body.position.y > this.world.height + this.radius ){
     this.body.position.y = -this.radius;
   }
 };
