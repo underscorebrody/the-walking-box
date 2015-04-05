@@ -45,19 +45,33 @@ module.exports = function(game) {
     zombies = game.add.group();
     zombies.enableBody = true;
 
-    //Create a car
-    for (var i = 0; i < 30; i++) {
-      var car1 = staticObjects.create(game.world.randomX, game.world.randomY, 'car');
-      car1.body.immovable = true;
+    //Create an array of coordinates that make a 3000px x 3000 grid
+    var placementMatrix = [];
+    for (var i = 0; i < 6; i++) {
+      for (var j = 0; j < 6; j++) {
+        placementMatrix.push([i*500, j*500]);
+      };
     };
 
-    for (var i = 0; i < 30; i++) {
-      var tree1 = staticObjects.create(game.world.randomX, game.world.randomY, 'tree');
-      tree1.body.immovable = true;
-    };
+    //Iterate through array to randomly drop cars or trees
+    //Once a placement is determined in a grid box, it is randomly placed
+    _.each(placementMatrix, function (coordinates) {
+      rand = _.random(0, 100);
+      randX = _.random(0, 500);
+      randY = _.random(0, 500);
+      if (rand < 50) {
+        if (rand%2 == 0) {
+          var car = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'car');
+          car.body.immovable = true;
+        } else {
+          var tree = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'tree');
+          tree.body.immovable = true;
+        }
+      }
+    });
 
-    //Create player in same area
-    player = game.add.sprite(0, 0, 'hero');
+    //Create player in center area
+    player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
     player.pivot.setTo(25, 25);
 
     game.physics.arcade.enable(player);
