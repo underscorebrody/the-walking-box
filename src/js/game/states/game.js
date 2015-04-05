@@ -12,10 +12,7 @@ module.exports = function(game) {
       zombies,
       cursors,
       bullets,
-      buildings,
-      playerCollisionGroup,
-      zombiesCollisionGroup,
-      staticObjectsCollisionGroup;
+      buildings;
 
 
   function resetEntity(entity) {
@@ -29,21 +26,17 @@ module.exports = function(game) {
   }
 
   gameState.create = function () {
-    game.physics.startSystem(Phaser.Physics.P2JS);
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
     staticObjects = game.add.group();
     buildings = game.add.group();
     zombies = game.add.group();
 
-    playerCollisionGroup = game.physics.p2.createCollisionGroup();
-    zombiesCollisionGroup = game.physics.p2.createCollisionGroup();
-    staticObjectsCollisionGroup = game.physics.p2.createCollisionGroup();
-
     //Create an array of coordinates that make a 3000px x 3000 grid
     var placementMatrix = [];
-    for (var i = 0; i < 6; i++) {
-      for (var j = 0; j < 6; j++) {
-        placementMatrix.push([i*500, j*500]);
+    for (var i = 0; i < 12; i++) {
+      for (var j = 0; j < 12; j++) {
+        placementMatrix.push([i*250, j*250]);
       };
     };
 
@@ -51,34 +44,32 @@ module.exports = function(game) {
     //Once a placement is determined in a grid box, it is randomly placed
     _.each(placementMatrix, function (coordinates) {
       rand = _.random(0, 100);
-      randX = _.random(0, 500);
-      randY = _.random(0, 500);
+      randX = _.random(0, 250);
+      randY = _.random(0, 250);
       if (rand < 50) {
         if (rand%2 == 0) {
-          var car = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'car');
-          game.physics.p2.enable(car);
-          car.body.setCollisionGroup(staticObjectsCollisionGroup);
+          var car = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'car-'+_.random(1,2));
+          game.physics.enable(car, Phaser.Physics.ARCADE);
+          car.body.immovable = true;
         } else {
           var tree = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'tree');
-          game.physics.p2.enable(tree);
-          tree.body.setCollisionGroup(staticObjectsCollisionGroup);
+          game.physics.enable(tree, Phaser.Physics.ARCADE);
+          tree.body.immovable = true;
         }
       } else if (rand > 90) {
         var building = buildings.create(coordinates[0], coordinates[1], 'building');
+        game.physics.enable(building, Phaser.Physics.ARCADE);
+        building.body.immovable = true;
         building.hasSpawned = false;
-        game.physics.p2.enable(building);
-        building.body.setCollisionGroup(staticObjectsCollisionGroup);
       }
     });
 
-
     //Create player in center area
     player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
-    player.pivot.setTo(0,0);
+    player.pivot.setTo(12,12);
 
-    game.physics.p2.enable(player);
+    game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    player.body.setCollisionGroup(playerCollisionGroup);
 
     //Create bullets
     bullets = game.add.group();
@@ -91,15 +82,18 @@ module.exports = function(game) {
 
     game.camera.follow(player);
 
-    // game.physics.arcade.collide(player, staticObjects);
-    // game.physics.arcade.collide(player, zombies);
-    // game.physics.arcade.collide(zombies, staticObjects);
-    // game.physics.arcade.collide(zombies, zombies);
-
+    game.physics.arcade.collide(player, staticObjects);
+    game.physics.arcade.collide(player, zombies);
+    game.physics.arcade.collide(player, buildings);
+    
+    game.physics.arcade.collide(zombies, staticObjects);
+    game.physics.arcade.collide(zombies, zombies);
+    game.physics.arcade.collide(zombies, buildings);
+    
     game.physics.arcade.overlap(bullets, zombies, killZombie, null, this);
 
     playerLogic.movePlayer(game, player);
-    playerLogic.rotatePlayer(game, player);
+    // playerLogic.rotatePlayer(game, player);
 
     if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || game.input.mousePointer.justPressed()) {
         weapon.shoot(game, player, bullets);
@@ -110,7 +104,7 @@ module.exports = function(game) {
     });
 
     _.each(buildings.children, function(building) {
-      buildingLogic.spawnZombiesFromBuilding(game, zombies, player, building, zombiesCollisionGroup);
+      buildingLogic.spawnZombiesFromBuilding(game, zombies, player, building);
     });
   }
 
