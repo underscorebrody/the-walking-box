@@ -65,10 +65,11 @@ module.exports = function() {
   }
   logic.spawnZombies = function (game, zombieGroup, xPosition, yPosition, collisionGroup) {
     for(var i = 0; i < 8; i++) {
-      var zombie = zombieGroup.create(xPosition, yPosition, 'zombie');
-      game.physics.p2.enable(zombie);
+      var zombie = zombieGroup.create(xPosition + _.random(0,100),
+                                      yPosition + _.random(0,100),
+                                      'zombie');
+      game.physics.enable(zombie, Phaser.Physics.ARCADE);
       zombie.body.collideWorldBounds = true;
-      zombie.body.setCollisionGroup(collisionGroup);
       _.extend(zombie.body, {intrinsicWalkSpeed: _.random(0, 30)});
       _.extend(zombie.body, {intrinsicRunSpeed: _.random(50, 100)});
     }
