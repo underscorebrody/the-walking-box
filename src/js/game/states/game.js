@@ -6,7 +6,7 @@ var _ = require('lodash'),
 module.exports = function(game) {
 
   var gameState = {},
-      cars,
+      staticObjects,
       player,
       zombies,
       cursors,
@@ -39,15 +39,22 @@ module.exports = function(game) {
   gameState.create = function () {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    cars = game.add.group();
-    cars.enableBody = true;
+    staticObjects = game.add.group();
+    staticObjects.enableBody = true;
 
     zombies = game.add.group();
     zombies.enableBody = true;
 
     //Create a car
-    var car1 = cars.create(80, 90, 'car');
-    car1.body.immovable = true;
+    for (var i = 0; i < 30; i++) {
+      var car1 = staticObjects.create(game.world.randomX, game.world.randomY, 'car');
+      car1.body.immovable = true;
+    };
+
+    for (var i = 0; i < 30; i++) {
+      var tree1 = staticObjects.create(game.world.randomX, game.world.randomY, 'tree');
+      tree1.body.immovable = true;
+    };
 
     //Create player in same area
     player = game.add.sprite(0, 0, 'hero');
@@ -65,12 +72,12 @@ module.exports = function(game) {
   gameState.update = function() {
     //  Reset the players velocity (movement)
     resetEntity(player);
-    
+
     game.camera.follow(player);
 
-    game.physics.arcade.collide(player, cars);
+    game.physics.arcade.collide(player, staticObjects);
     game.physics.arcade.collide(player, zombies);
-    game.physics.arcade.collide(zombies, cars);
+    game.physics.arcade.collide(zombies, staticObjects);
     game.physics.arcade.collide(zombies, zombies);
 
     game.physics.arcade.overlap(bullets, zombies, killZombie, null, this);

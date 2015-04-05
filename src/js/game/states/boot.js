@@ -16,6 +16,8 @@ module.exports = function(game) {
     game.world.height = 3000;
     game.world.setBounds(0, 0, 3000, 3000); //Don't forget to setBounds so the camera follows
 
+    game.stage.backgroundColor = '#222222';
+
     game.sound.mute = properties.mute;
 
     game.state.start('preloader');
