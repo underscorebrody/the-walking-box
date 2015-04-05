@@ -101,7 +101,7 @@ module.exports = function(game) {
     playerLogic.movePlayer(game, player);
     playerLogic.rotatePlayer(game, player);
 
-    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || game.input.mousePointer.justPressed()) {
         weapon.shoot(game, player, bullets);
     }
 
