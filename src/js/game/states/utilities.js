@@ -27,8 +27,8 @@ module.exports = function() {
   }
 
   Utilities.calculateRotation = function(game, object) {
-    var deltaX = game.input.mousePointer.worldX - object.body.position.x,
-        deltaY = game.input.mousePointer.worldY - object.body.position.y;
+    var deltaX = game.input.mousePointer.worldX - object.position.x,
+        deltaY = game.input.mousePointer.worldY - object.position.y;
 
     return Math.atan2(deltaY, deltaX);
   }

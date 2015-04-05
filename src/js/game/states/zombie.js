@@ -6,10 +6,10 @@ module.exports = function() {
       ZOMBIE_SEEING_DISTANCE = 200;
 
   function seePlayer(p, z) {
-    var playerX = p.body.position.x,
-        playerY = p.body.position.y,
-        zombieX = z.body.position.x,
-        zombieY = z.body.position.y,
+    var playerX = p.position.x,
+        playerY = p.position.y,
+        zombieX = z.position.x,
+        zombieY = z.position.y,
         diffX = Math.abs(playerX - zombieX),
         diffY = Math.abs(playerY - zombieY),
         distance = Math.sqrt(Math.pow(diffX, 2) + Math.pow(diffY, 2));
@@ -22,20 +22,20 @@ module.exports = function() {
         runSpeed = z.body.intrinsicRunSpeed;
 
     if(seePlayer(p,z)) {
-      if(p.body.position.x < z.body.position.x) {
+      if(p.position.x < z.position.x) {
         z.body.velocity.x = -1*runSpeed;
       }
-      else if(p.body.position.x > z.body.position.x){
+      else if(p.position.x > z.position.x){
         z.body.velocity.x = runSpeed;
       }
       else {
         z.body.velocity.x = 0;
       }
 
-      if(p.body.position.y < z.body.position.y) {
+      if(p.position.y < z.position.y) {
         z.body.velocity.y = -1*runSpeed;
       }
-      else if(p.body.position.y > z.body.position.y){
+      else if(p.position.y > z.position.y){
         z.body.velocity.y = runSpeed;
       }
       else {

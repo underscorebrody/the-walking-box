@@ -72,7 +72,7 @@ module.exports = function(game) {
 
     //Create player in center area
     player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
-    player.pivot.setTo(25, 25);
+    player.pivot.setTo(0,0);
 
     game.physics.p2.enable(player);
     player.body.collideWorldBounds = true;
