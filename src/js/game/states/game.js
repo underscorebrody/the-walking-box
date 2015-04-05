@@ -34,9 +34,9 @@ module.exports = function(game) {
 
     //Create an array of coordinates that make a 3000px x 3000 grid
     var placementMatrix = [];
-    for (var i = 0; i < 6; i++) {
-      for (var j = 0; j < 6; j++) {
-        placementMatrix.push([i*500, j*500]);
+    for (var i = 0; i < 12; i++) {
+      for (var j = 0; j < 12; j++) {
+        placementMatrix.push([i*250, j*250]);
       };
     };
 
@@ -44,11 +44,11 @@ module.exports = function(game) {
     //Once a placement is determined in a grid box, it is randomly placed
     _.each(placementMatrix, function (coordinates) {
       rand = _.random(0, 100);
-      randX = _.random(0, 500);
-      randY = _.random(0, 500);
+      randX = _.random(0, 250);
+      randY = _.random(0, 250);
       if (rand < 50) {
         if (rand%2 == 0) {
-          var car = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'car');
+          var car = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'car-'+_.random(1,2));
           game.physics.enable(car, Phaser.Physics.ARCADE);
           car.body.immovable = true;
         } else {
@@ -66,7 +66,7 @@ module.exports = function(game) {
 
     //Create player in center area
     player = game.add.sprite(game.world.centerX, game.world.centerY, 'hero');
-    player.pivot.setTo(25,25);
+    player.pivot.setTo(12,12);
 
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;

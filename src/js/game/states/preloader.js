@@ -5,7 +5,8 @@ module.exports = function(game) {
   preloader.preload = function () {
     game.load.image('hero', 'images/hero.png#grunt-cache-bust');
     game.load.image('zombie', 'images/zombie.png#grunt-cache-bust');
-    game.load.image('car', 'images/car.png#grunt-cache-bust');
+    game.load.image('car-1', 'images/car-1.png#grunt-cache-bust');
+    game.load.image('car-2', 'images/car-2.png#grunt-cache-bust');
     game.load.image('tree', 'images/tree.png#grunt-cache-bust');
     game.load.image('building', 'images/building.png#grunt-cache-bust');
     game.load.image('bullet', 'images/bullet.png#grunt-cache-bust');

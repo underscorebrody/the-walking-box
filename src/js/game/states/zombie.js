@@ -3,7 +3,7 @@ var _ = require('lodash');
 module.exports = function() {
 
   var logic = {},
-      ZOMBIE_SEEING_DISTANCE = 200;
+      ZOMBIE_SEEING_DISTANCE = 300;
 
   function seePlayer(p, z) {
     var playerX = p.position.x,
