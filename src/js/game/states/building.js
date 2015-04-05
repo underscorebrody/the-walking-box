@@ -35,13 +35,13 @@ module.exports = function() {
         if (x > 0) {
           AdjustX = 300;
         } else {
-          AdjustX = -250;
+          AdjustX = -300;
         }
       } else {
         if (y > 0) {
-          AdjustY = 250;
+          AdjustY = 300;
         } else {
-          AdjustY = -300;
+          AdjustY = -250;
         }
       }
 
