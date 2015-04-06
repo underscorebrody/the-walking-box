@@ -74,6 +74,14 @@ module.exports = function(game) {
     //Create bullets
     bullets = game.add.group();
     game.physics.enable(bullets, Phaser.Physics.ARCADE);
+    
+    //Create zombie swarm
+    this.maxZombies = 30;
+    
+    for(var i = 0; i < this.maxZombies; i++) {
+      zombieLogic.spawnZombie(game, player, zombies, game.world.randomX, game.world.randomY);
+    }
+
   };
 
   gameState.update = function() {
@@ -99,12 +107,12 @@ module.exports = function(game) {
         weapon.shoot(game, player, bullets);
     }
 
-    _.each(zombies.children, function(zombie){
-      zombieLogic.moveZombie(player, zombie);
-    });
-
     _.each(buildings.children, function(building) {
       buildingLogic.spawnZombiesFromBuilding(game, zombies, player, building);
+    });
+
+    _.each(zombies.children, function(zombie) {
+      zombie.update();
     });
   }
 
