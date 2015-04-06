@@ -178,9 +178,9 @@ module.exports = function(game) {
     var zeroedY = game.camera.y;
     var limitedX = zeroedX + game.camera.width;
     var limitedY = zeroedY + game.camera.height;
-    
+
     // Fill the entire light bitmap with a dark shadow color.
-    bitmap.context.fillStyle = 'rgb(100, 100, 100)';
+    bitmap.context.fillStyle = 'rgb(0, 0, 0)';
     bitmap.context.fillRect(zeroedX, zeroedY, game.camera.width, game.camera.height);
 
     // An array of the stage corners that we'll use later
@@ -198,13 +198,13 @@ module.exports = function(game) {
     var ray = null;
     var intersect;
     var i;
-    
+
     buildings.forEach(function(wall) {
-      
+
       //Check to see if objects are within camera before calculating rays
       //This saves on processing and also helps with rendering
       if (wall.inCamera) {
-        
+
         // Create a ray from the light through each corner out to the edge of the stage.
         // This array defines points just inside of each corner to make sure we hit each one.
         // It also defines points just outside of each corner so we can see to the stage edges.
@@ -250,9 +250,9 @@ module.exports = function(game) {
                 }
             } else {
                 // Find the point where the line crosses the stage edge
-                var left = new Phaser.Point(zeroedX, b);
-                var right = new Phaser.Point(limitedX, slope * limitedX + b);
-                var top = new Phaser.Point(-b/slope, zeroedY);
+                var left = new Phaser.Point(zeroedX, (slope*zeroedX)+b);
+                var right = new Phaser.Point(limitedX, (slope*limitedX)+b);
+                var top = new Phaser.Point((zeroedY-b)/slope, zeroedY);
                 var bottom = new Phaser.Point((limitedY-b)/slope, limitedY);
 
                 // Get the actual intersection point
@@ -375,9 +375,9 @@ module.exports = function(game) {
     // This just tells the engine it should update the texture cache
     bitmap.dirty = true;
     rayBitmap.dirty = true;
-    
+
     //Used for debugging at the moment
-    rayBitmapImage.visible = true;
+    // rayBitmapImage.visible = true;
   }
 
   return gameState;
