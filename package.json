@@ -29,9 +29,7 @@
     }
   },
   "dependencies":{
-    "lodash": "~2.4.1",
-    "connect": "~2.13.1",
-    "server-static": "~1.9.2"
+    "express": "^4.12.3"
   },
   "devDependencies": {
     "grunt-contrib-compress": "^0.9.1",
