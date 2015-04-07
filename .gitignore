@@ -32,7 +32,6 @@ Icon?
 /.cake_task_cache
 
 # Build files
-/build/*
 /bower_components/*
 
 .sass-cache
