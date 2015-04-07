@@ -52,6 +52,7 @@
     "grunt-pngmin": "^0.6.1"
   },
   "engines": {
-    "node": "0.12.x"
+    "node": "0.12.x",
+    "npm": "2.5.x"
   }
 }
