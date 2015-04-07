@@ -10,25 +10,25 @@ module.exports = function(game) {
       staticObjects,
       player,
       zombies,
-      cursors,
       bullets,
       buildings,
       bitmap,
       lightBitmap,
-      rayBitmap;
+      rayBitmap,
+      rayBitmapImage;
 
 
   function resetEntity(entity) {
     entity.body.velocity.x = 0;
     entity.body.velocity.y = 0;
-  };
+  }
 
   function killZombie(bullet, zombie) {
     bullet.kill();
     zombie.kill();
   }
 
-  getWallIntersection = function(ray, walls) {
+  var getWallIntersection = function(ray, walls) {
     var distanceToWall = Number.POSITIVE_INFINITY;
     var closestIntersection = null;
 
@@ -50,8 +50,7 @@ module.exports = function(game) {
             var intersect = Phaser.Line.intersects(ray, lines[i]);
             if (intersect) {
                 // Find the closest intersection
-                distance =
-                    game.math.distance(ray.start.x, ray.start.y, intersect.x, intersect.y);
+                var distance = game.math.distance(ray.start.x, ray.start.y, intersect.x, intersect.y);
                 if (distance < distanceToWall) {
                     distanceToWall = distance;
                     closestIntersection = intersect;
@@ -75,17 +74,17 @@ module.exports = function(game) {
     for (var i = 0; i < 12; i++) {
       for (var j = 0; j < 12; j++) {
         placementMatrix.push([i*250, j*250]);
-      };
-    };
+      }
+    }
 
     //Iterate through array to randomly drop cars or trees
     //Once a placement is determined in a grid box, it is randomly placed
     _.each(placementMatrix, function (coordinates) {
-      rand = _.random(0, 100);
-      randX = _.random(0, 250);
-      randY = _.random(0, 250 );
+      var rand = _.random(0, 100);
+      var randX = _.random(0, 250);
+      var randY = _.random(0, 250 );
       if (rand < 50) {
-        if (rand%2 == 0) {
+        if (rand%2 === 0) {
           var car = staticObjects.create(coordinates[0]-randX, coordinates[1]-randY, 'car-'+_.random(1,2));
           game.physics.enable(car, Phaser.Physics.ARCADE);
           car.body.immovable = true;
@@ -116,7 +115,7 @@ module.exports = function(game) {
     //Create zombie swarm
     this.maxZombies = 30;
     
-    for(var i = 0; i < this.maxZombies; i++) {
+    for(var k = 0; k < this.maxZombies; k++) {
       zombieLogic.spawnZombie(game, player, zombies, game.world.randomX, game.world.randomY);
     }
 
@@ -322,27 +321,28 @@ module.exports = function(game) {
     // http://en.wikipedia.org/wiki/Graham_scan
     var center = { x: player.x, y: player.y };
     points = points.sort(function(a, b) {
-        if (a.x - center.x >= 0 && b.x - center.x < 0)
+        if (a.x - center.x >= 0 && b.x - center.x < 0) {
             return 1;
-        if (a.x - center.x < 0 && b.x - center.x >= 0)
+        }
+        if (a.x - center.x < 0 && b.x - center.x >= 0) {
             return -1;
+        }
         if (a.x - center.x === 0 && b.x - center.x === 0) {
-            if (a.y - center.y >= 0 || b.y - center.y >= 0)
+            if (a.y - center.y >= 0 || b.y - center.y >= 0) {
                 return 1;
+            }
             return -1;
         }
 
         // Compute the cross product of vectors (center -> a) x (center -> b)
         var det = (a.x - center.x) * (b.y - center.y) - (b.x - center.x) * (a.y - center.y);
-        if (det < 0)
+        if (det < 0) {
             return 1;
-        if (det > 0)
+        }
+        if (det > 0) {
             return -1;
+        }
 
-        // Points a and b are on the same line from the center
-        // Check which point is closer to the center
-        var d1 = (a.x - center.x) * (a.x - center.x) + (a.y - center.y) * (a.y - center.y);
-        var d2 = (b.x - center.x) * (b.x - center.x) + (b.y - center.y) * (b.y - center.y);
         return 1;
     });
 
@@ -378,7 +378,7 @@ module.exports = function(game) {
 
     //Used for debugging at the moment
     // rayBitmapImage.visible = true;
-  }
+  };
 
   return gameState;
 };

@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var Utilities = require('./utilities')();
 
 module.exports = function() {
@@ -6,8 +5,7 @@ module.exports = function() {
   var logic = {};
 
   logic.movePlayer = function(game, player) {
-    var cursors = game.input.keyboard.createCursorKeys(),
-        IS_W_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.W),
+    var IS_W_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.W),
         IS_A_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.A),
         IS_S_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.S),
         IS_D_DOWN = game.input.keyboard.isDown(Phaser.Keyboard.D),
@@ -42,13 +40,13 @@ module.exports = function() {
     if(!!direction) {
       Utilities.setSpeed(player, direction, baseSpeed);
     }
-  }
+  };
 
   logic.rotatePlayer = function(game, player) {
     var angleInRadians = Utilities.calculateRotation(game, player);
 
     player.rotation = angleInRadians;
-  }
+  };
 
   return logic;
-}
+};

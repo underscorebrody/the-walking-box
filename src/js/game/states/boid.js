@@ -93,7 +93,6 @@ Boid.prototype.lookAtClosest = function() {
 };
 
 Boid.prototype.separate = function() {
-  var distance = new Phaser.Point();
   var steer = new Phaser.Point();
   var count = 0;
 
@@ -104,7 +103,7 @@ Boid.prototype.separate = function() {
       diff.normalize();
       diff.divide(d,d);
       steer.add(diff.x,diff.y);
-      count++
+      count++;
     }
   }, this);
 

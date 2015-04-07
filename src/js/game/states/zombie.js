@@ -3,9 +3,8 @@ var _ = require('lodash'),
 
 module.exports = function() {
 
-  var logic = {},
-      ZOMBIE_SEEING_DISTANCE = 300;
-
+  var logic = {};
+  
   logic.spawnZombie = function (game, target, group, xPosition, yPosition) {
     var zombie = group.add(new Boid(game,
                                     xPosition + _.random(0,100),
@@ -13,7 +12,7 @@ module.exports = function() {
                                     group
                                       ));
     zombie.target = target;
-  }
+  };  
 
   return logic;
 };

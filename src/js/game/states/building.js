@@ -46,10 +46,10 @@ module.exports = function() {
       }
       for (var i = 0; i <= _.random(1,12); i++) {
         zombieLogic.spawnZombie(game, player, zombies, buildingX+AdjustX, buildingY+AdjustY);
-      };
+      }
       building.hasSpawned = true;
     }
-  }
+  };
 
   return logic;
 };

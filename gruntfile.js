@@ -213,7 +213,7 @@ module.exports = function (grunt) {
   );
 
   grunt.registerTask('build',
-  [// [ 'jshint'
+  [ 'jshint'
     , 'clean'
     , 'browserify'
     , 'jade'

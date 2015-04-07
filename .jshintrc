@@ -3,9 +3,9 @@
   "browser": true,
   "curly": true,
   "devel": true,
-  "maxdepth": 4,
-  "maxstatements": 25,
-  "maxcomplexity": 6,
+  "maxdepth": 6,
+  "maxstatements": 55,
+  "maxcomplexity": 16,
   "eqeqeq": true,
   "eqnull": true,
   "immed": false,
@@ -23,5 +23,8 @@
   "trailing": false,
   "undef": true,
   "-W008": true,
-  "unused": true
+  "unused": true,
+  "globals": {
+    "Phaser": true
+  }
 }

@@ -28,7 +28,7 @@ module.exports = function() {
         Utilities.setBulletSpeed(bullet, rotation, baseSpeed);
       }
     }
-  }
+  };
 
   return Weapon;
 
