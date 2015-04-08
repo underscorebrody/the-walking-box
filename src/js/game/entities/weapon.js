@@ -1,4 +1,4 @@
-var Utilities = require('./utilities')();
+var Utilities = require('../utils/utilities')();
 
 module.exports = function() {
 
