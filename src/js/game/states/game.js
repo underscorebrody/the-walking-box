@@ -15,7 +15,8 @@ module.exports = function(game) {
       bitmap,
       lightBitmap,
       rayBitmap,
-      rayBitmapImage;
+      rayBitmapImage,
+      MAX_PLAYER_HEALTH = 10;
 
 
   function resetEntity(entity) {
@@ -25,8 +26,32 @@ module.exports = function(game) {
 
   function killZombie(bullet, zombie) {
     bullet.kill();
-    zombie.kill();
+    setTimeout(function() {
+      // fixing a racing condition where the bullet is still being updated even though the reference is null
+      bullet.destroy();
+    });
+    zombie.destroy();
+    // we should destroy instead of .kill() because destroy will free up objects for GC and kill does not.
+    // kill also retain all the listeners on the object.
   }
+
+  function resetGameWithMessage(message) {
+    game.add.text(game.camera.position.x, game.camera.position.y-230, message, { fontSize: '50px', fill: '#Ff3333' });
+  }
+
+  function hurtPlayer(player) {
+    if(player.body.health  === 1) {
+      player.kill();
+      resetGameWithMessage('ZOMBIES GOT HUNGRY!');
+    }
+    else {
+      player.body.health = player.body.health - 1;
+      var scalePercentage = 1 - ((MAX_PLAYER_HEALTH-player.body.health)*0.05);
+      player.scale.setTo(scalePercentage, scalePercentage);
+    }
+  }
+
+  var debouncedHurtplayer = _.throttle(hurtPlayer, 400, { 'leading': true, 'trailing': false });
 
   var getWallIntersection = function(ray, walls) {
     var distanceToWall = Number.POSITIVE_INFINITY;
@@ -107,19 +132,20 @@ module.exports = function(game) {
 
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
+    _.extend(player.body, {health: MAX_PLAYER_HEALTH});
 
     //Create bullets
     bullets = game.add.group();
     game.physics.enable(bullets, Phaser.Physics.ARCADE);
-    
+
     //Create zombie swarm
     this.maxZombies = 30;
-    
+
     for(var k = 0; k < this.maxZombies; k++) {
       zombieLogic.spawnZombie(game, player, zombies, game.world.randomX, game.world.randomY);
     }
 
-    
+
     // Create a bitmap texture for drawing light cones
     bitmap = game.add.bitmapData(game.world.width, game.world.height);
     bitmap.context.fillStyle = 'rgb(255, 255, 255)';
@@ -157,6 +183,8 @@ module.exports = function(game) {
 
     game.physics.arcade.overlap(bullets, zombies, killZombie, null, this);
 
+    game.physics.arcade.overlap(player, zombies, debouncedHurtplayer, null, this);
+
     playerLogic.movePlayer(game, player);
     playerLogic.rotatePlayer(game, player);
 
@@ -171,7 +199,7 @@ module.exports = function(game) {
     _.each(zombies.children, function(zombie) {
       zombie.update();
     });
-  
+
     //These are the equivelent of zero x and y values for the screen
     var zeroedX = game.camera.x;
     var zeroedY = game.camera.y;
