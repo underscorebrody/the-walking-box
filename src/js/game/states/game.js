@@ -1,8 +1,8 @@
 var _ = require('lodash'),
-    zombieLogic = require('./zombie')(),
-    playerLogic = require('./player')(),
-    buildingLogic = require('./building')(),
-    weapon = require('./weapon')();
+    zombieLogic = require('../entities/zombie')(),
+    playerLogic = require('../entities/player')(),
+    buildingLogic = require('../entities/building')(),
+    weapon = require('../entities/weapon')();
 
 module.exports = function(game) {
 
